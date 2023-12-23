@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Connectify.ViewModels.UserViewModel>
+
+<div class="bg-white p-2 shadow-sm rounded border">
+	<div class="text-muted small">People you may know</div>
+	@{
+		foreach (var obj in Model)
+		{
+			<div class="d-flex p-2">
+				<img class="border" alt="@obj.Picture" src="@obj.Picture" style="width:50px;height:50px;object-fit:cover;" />
+				<div class="px-2">
+					<div class="text-dark" style="font-size:smaller;">
+						<a class="text-decoration-none"
+						   asp-controller="User"
+						   asp-action="Profile"
+						   asp-route-firstName="@obj.FirstName.ToLower()"
+						   asp-route-lastName="@obj.LastName.ToLower()"
+						   asp-route-id="@obj.Id">@obj.FirstName @obj.LastName</a>
+					</div>
+					<div>
+						<a href="" class="text-decoration-none btn btn-sm btn-outline-primary p-1 px-2 rounded" style="font-size:smaller;">Add Friend</a>
+					</div>
+				</div>
+			</div>
+		}
+	}
+</div>

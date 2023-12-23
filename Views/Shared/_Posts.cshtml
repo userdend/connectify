@@ -1,0 +1,87 @@
+﻿@model IEnumerable<Connectify.ViewModels.PostsViewModel>
+@{
+    var authorized = TempData["Authorized"] as bool? ?? false;
+}
+@{
+    if (Model != null)
+    {
+        foreach (var obj in Model)
+        {
+            <div class="bg-white mb-3 shadow-sm rounded border">
+                <div class="d-flex px-2 pt-2">
+                    <img alt="@obj.Owner.Picture" src="@obj.Owner.Picture" class="border bg-secondary" style="width:50px;height:50px;object-fit:cover;" />
+                    <div class="px-2">
+                        <div class="text-capitalize small">
+                            <a class="text-decoration-none" 
+                            asp-controller="User" 
+                            asp-action="Profile" 
+                            asp-route-firstName="@obj.Owner.FirstName.ToLower()"
+                            asp-route-lastName="@obj.Owner.LastName.ToLower()"
+                            asp-route-id="@obj.Owner.Id">@obj.Owner.FirstName @obj.Owner.LastName</a>
+                        </div>
+                        <div class="text-muted" style="font-size:smaller;">@obj.PublishDate</div>
+                    </div>
+                </div>
+                <div class="px-2 pb-2 mt-2 small">
+                    <span>@obj.Text</span><br />
+                    <span>
+                        @{
+                            if (obj.Tags != null)
+                            {
+                                foreach (var tag in obj.Tags)
+                                {
+                                    <a class="text-decoration-none"
+                                       asp-controller="Posts"
+                                       asp-action="Tags"
+                                       asp-route-tag="@tag">#@tag</a>
+                                }
+                            }
+                        }
+                    </span>
+                </div>
+                @{
+                    if (obj.Image != null)
+                    {
+                        <div class="mb-2">
+                            <img alt="@obj.Image" src="@obj.Image" class="" style="width:100%;aspect-ratio:1/1;object-fit:cover;" />
+                        </div>
+                    }
+                }
+                <div class="d-flex justify-content-between text-muted mx-3 pb-2" style="font-size:smaller;">
+                    <div>@obj.Likes likes</div>
+                    <a class="text-decoration-none text-muted"
+                        asp-controller="Comment"
+                        asp-action="Index"
+                        asp-route-id="@obj.Id">@obj.Comments 
+                        @{
+                            if (obj.Comments > 1)
+                            {
+                                <span>comments</span>
+                            }
+                            else
+                            {
+                                <span>comment</span>
+                            }
+                        }
+                    </a>
+                </div>
+                @{
+                    if (authorized)
+                    {
+                        <div class="d-flex justify-content-around py-2 mx-3 text-dark small border-top">
+                            <div>
+                                <a href="" class="text-decoration-none text-secondary">Like</a>
+                            </div>
+                            <div>
+                                <a class="text-decoration-none text-secondary"
+                                   asp-controller="Comment"
+                                   asp-action="Index"
+                                   asp-route-id="@obj.Id">Comment</a>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        }
+    }
+}

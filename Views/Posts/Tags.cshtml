@@ -1,0 +1,8 @@
+﻿@model IEnumerable<Connectify.ViewModels.PostsViewModel>
+@{
+    ViewData["Title"] = ViewBag.Tags;
+}
+
+<div class="post-cards">
+    @await Html.PartialAsync("_Posts", Model)
+</div>

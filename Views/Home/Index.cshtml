@@ -1,0 +1,30 @@
+﻿@model Connectify.ViewModels.BaseViewModel
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="default-cards mb-2">
+    <div>
+        <form id="searchFeature" method="get" asp-controller="Posts" asp-action="Tags">
+            <div class="d-flex align-items-center bg-white p-2 rounded shadow-sm">
+                <input id="searchBar" type="text" name="tag" placeholder="Search" class="border-0 flex-grow-1 small" style="outline:none;" />
+                <input type="submit" value="Search" class="btn btn-sm btn-outline-primary" />
+            </div>
+        </form>
+    </div>
+    <div class="bg-white text-center my-1 p-2 shadow-sm rounded">
+        <a asp-controller="Posts" asp-action="Create" class="text-decoration-none small">Create Post</a>
+    </div>
+    <div class="bg-white text-center my-1 p-2 shadow-sm rounded">
+        <a href="" class="text-decoration-none small">Saved</a>
+    </div>
+</div>
+
+<div class="post-cards">
+    @await Html.PartialAsync("_Posts", Model.Posts)
+</div>
+
+<div class="user-cards">
+    @await Html.PartialAsync("_Users", Model.Users)
+</div>

@@ -1,0 +1,45 @@
+﻿@model Connectify.ViewModels.BaseViewModel
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<div class="default-cards border rounded shadow-sm mb-2 border" style="height:fit-content;color:#34495E;">
+    <div class="py-4 text-center" style="background-color:#EAECEE;">
+        <img alt="@Model.Profile.Picture" src="@Model.Profile.Picture" class="img-thumbnail" style="width:100px;height:100px;" />
+        <div class="p-2 text-capitalize">@Model.Profile.FirstName @Model.Profile.LastName</div>
+        <a href="" class="btn btn-sm btn-outline-primary">Add Friend</a>
+    </div>
+    <div class="p-4" style="font-size:smaller;">
+        <div class="border-bottom fw-bold mb-4">About</div>
+        <div class="d-flex justify-content-between mb-4">
+            <div>
+                <span class="fw-bold">Email</span><br />
+                <span class="text-muted">@Model.Profile.Email</span>
+            </div>
+            <div class="w-25">
+                <span class="fw-bold">Phone</span><br />
+                <span class="text-muted">@Model.Profile.Phone</span>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between">
+            <div>
+                <span class="fw-bold">Joined Date</span><br />
+                <span class="text-muted">@Model.Profile.RegisterDate</span>
+            </div>
+            <div class="w-25">
+                <span class="fw-bold">Lives In</span><br />
+                <span class="text-muted">@Model.Profile.Location.City</span>
+            </div>
+        </div>
+    </div>
+    <div class="text-center small">
+        <div class="mx-2 py-2 border-top">
+            <a href="" class="text-decoration-none">More</a>
+        </div>
+    </div>
+</div>
+
+<div class="post-cards">
+    @await Html.PartialAsync("_Posts", Model.Posts)
+</div>

@@ -1,0 +1,24 @@
+﻿@model Connectify.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="default-cards bg-white border shadow-sm rounded px-5 py-4">
+    <div class="text-center mb-3" style="color:#34495E;">Login</div>
+    @{
+        if (TempData["Result"] != null)
+        {
+            <div class="text-danger small border border-danger p-2 rounded">@TempData["Result"]</div>
+        }
+    }
+    <form id="inputForm" asp-controller="User" asp-action="Login" method="post">
+        <div class="d-flex flex-column text-center">
+            <div asp-validation-summary="All" class="text-danger text-start" style="font-size:smaller;"></div>
+            <input asp-for="Email" placeholder="Email" class="border p-2 small mb-4" style="outline:none;" />
+            <input asp-for="Password" placeholder="Password" class="border p-2 small mb-4" style="outline:none;" />
+            <input id="inputButton" type="submit" value="Login" class="btn btn-sm btn-primary mb-2" />
+            <a id="inputRedirection" asp-controller="User" asp-action="Register" class="small text-decoration-none">Create new account</a>
+        </div>
+    </form>
+</div>
+

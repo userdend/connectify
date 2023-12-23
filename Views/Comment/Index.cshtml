@@ -1,0 +1,105 @@
+﻿@using System.Security.Claims
+@model Connectify.ViewModels.BaseViewModel
+@{
+    ViewData["Title"] = "Comments";
+    var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+}
+
+<div class="post-cards bg-white mb-3 shadow-sm rounded border">
+    <div class="d-flex px-2 pt-2">
+        <img alt="@Model.SinglePost?.Owner?.Picture" src="@Model.SinglePost?.Owner?.Picture" class="border" style="width:50px;height:50px;object-fit:cover;" />
+        <div class="px-2">
+            <div class="text-capitalize small">
+                <a class="text-decoration-none"
+                   asp-controller="User"
+                   asp-action="Profile"
+                   asp-route-firstName="@Model.SinglePost?.Owner?.FirstName.ToLower()"
+                   asp-route-lastName="@Model.SinglePost?.Owner?.LastName.ToLower()"
+                   asp-route-id="@Model.SinglePost?.Owner?.Id">@Model.SinglePost?.Owner?.FirstName @Model.SinglePost?.Owner?.LastName</a>
+            </div>
+            <div class="text-muted" style="font-size:smaller;">@Model.SinglePost?.PublishDate</div>
+        </div>
+    </div>
+    <div class="px-2 pb-2 mt-2 small">
+        <span>@Model.SinglePost?.Text</span><br />
+        <span>
+            @{
+                foreach (var tag in Model.SinglePost.Tags)
+                {
+                    <a href="" class="text-decoration-none">#@tag</a>
+                }
+            }
+        </span>
+    </div>
+    <div class="mb-2">
+        <img alt="@Model.SinglePost.Image" src="@Model.SinglePost.Image" class="" style="width:100%;aspect-ratio:1/1;object-fit:cover;" />
+    </div>
+    <div class="d-flex justify-content-between text-muted mx-3 pb-2" style="font-size:smaller;">
+        <div>@Model.SinglePost.Likes likes</div>
+        <div>@Model.SinglePost.Comments comments</div>
+    </div>
+</div>
+
+<div class="default-cards">
+    @{
+        if(User.Identity.IsAuthenticated) 
+        {
+            <div>
+                <form id="commentForm" method="post">
+                    <div class="d-flex bg-white mb-2 p-2 border shadow-sm rounded">
+                        <input type="text" name="message" placeholder="Send a comment" class="flex-grow-1 border-0 small" style="outline:none;" />
+                        <input type="text" name="userId" value="To be defined." hidden />
+                        <input type="text" name="postId" value="@Model.SinglePost.Id" hidden />
+                        <button type="submit" class="btn btn-sm btn-outline-primary">Comment</button>
+                    </div>
+                </form>
+            </div>
+        }
+        else
+        {
+            <div class="p-3 mb-2 small text-muted bg-white rounded shadow-sm border">Please login to comment</div>
+        }
+    }
+
+    <div id="commentList" class="bg-white border rounded shadow-sm" style="height:fit-content;">
+        @{
+            if (Model.Comments?.Count() > 0)
+            {
+                foreach (var obj in Model.Comments)
+                {
+                    <div class="d-flex small p-2 border-bottom position-relative">
+                        <div class="d-flex flex-grow-1">
+                            <img alt="@obj.Owner?.Picture" src="@obj.Owner?.Picture" class="border" style="width:50px;height:50px" />
+                            <div class="px-2">
+                                <span class="text-capitalize">
+                                    <a class="text-decoration-none"
+                                       asp-controller="User"
+                                       asp-action="Profile"
+                                       asp-route-firstName="@obj.Owner?.FirstName.ToLower()"
+                                       asp-route-lastName="@obj.Owner?.LastName.ToLower()"
+                                       asp-route-id="@obj.Owner?.Id">@obj.Owner?.FirstName @obj.Owner?.LastName</a>
+                                </span>
+                                <span class="text-muted" style="font-size:smaller;">@obj.PublishDate</span><br />
+                                <span>@obj.Message</span>
+                            </div>
+                        </div>
+                        @if (userId == obj?.Owner?.Id)
+                        {
+                            <select style="width:20px;height:fit-content;" name="cars" id="cars">
+                                <option value="">
+                                </option>
+                                <option class="position-absolute" value="delete">
+                                    Delete
+                                </option>
+                            </select>
+                        }
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="p-3 small text-muted">Be first to comment</div>
+            }
+        }
+    </div>
+</div>

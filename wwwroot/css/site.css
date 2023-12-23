@@ -1,0 +1,44 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.default-cards {
+    width: 25%;
+}
+
+.post-cards {
+    width: 30%;
+}
+
+.user-cards {
+    width: 20%;
+}
+
+@media only screen and (max-width: 1000px) {
+    .default-cards {
+        width: 100%;
+    }
+
+    .post-cards {
+        width: 100%;
+    }
+
+    .user-cards {
+        display: none;
+    }
+}
